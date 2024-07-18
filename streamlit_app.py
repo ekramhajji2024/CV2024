@@ -1,5 +1,11 @@
 import streamlit as st
 
+# URL of the logo
+logo_url = "https://www.fedecardio.org/wp-content/uploads/2021/03/schema-valves_0.jpg"
+
+# Display the logo
+st.image(logo_url, width=100)
+
 # Title of the app
 st.title('Simple Summation App')
 
