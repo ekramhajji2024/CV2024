@@ -1,41 +1,7 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import scipy.stats as stats
-from scipy.stats import shapiro, kstest, anderson
-import matplotlib.pyplot as plt
-# Charger le dataset
-data = pd.read_csv('data/gdp_data.csv')
-# Charger le modèle et le scaler
-model = joblib.load('heart_disease_model.pkl')
-scaler = StandardScaler()
-# Tests statistiques
-stat, p = shapiro(data['age'])
-print('Shapiro-Wilk Test: Statistics=%.3f, p=%.3f' % (stat, p))
-if p > 0.05:
-    print('Les données suivent une distribution normale (ne rejette pas H0)')
-else:
-    print('Les données ne suivent pas une distribution normale (rejette H0)')
-
-stat, p = kstest(data['age'], 'norm')
-print('Kolmogorov-Smirnov Test: Statistics=%.3f, p=%.3f' % (stat, p))
-if p > 0.05:
-    print('Les données suivent une distribution normale (ne rejette pas H0)')
-else:
-    print('Les données ne suivent pas une distribution normale (rejette H0)')
-
-result = anderson(data['age'], dist='norm')
-print('Anderson-Darling Test: Statistic: %.3f' % result.statistic)
-for i in range(len(result.critical_values)):
-    sl, cv = result.significance_level[i], result.critical_values[i]
-    if result.statistic < cv:
-        print('A la significativité %.3f, on ne rejette pas H0 (Les données suivent une distribution normale)' % sl)
-    else:
-        print('A la significativité %.3f, on rejette H0 (Les données ne suivent pas une distribution normale)' % sl)
-        import streamlit as st
+import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
 
 # Charger le modèle et le scaler
 model = joblib.load('heart_disease_model.pkl')
@@ -43,9 +9,6 @@ scaler = StandardScaler()
 
 # Charger les données
 data = pd.read_csv('Heart_Disease_Prediction.csv')
-
-# Afficher les noms des colonnes pour vérification
-st.write("Colonnes du fichier CSV:", data.columns)
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
@@ -80,13 +43,7 @@ features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak,
 # Prédire le risque lorsque l'utilisateur clique sur le bouton
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
-    st.write(f"{'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
+    st.write(f"Prédiction : {'Présence de Maladie' si prediction == 1 else 'Absence de Maladie'}")
     st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
 
-# Tracer un histogramme de l'âge
-if 'Age' in data.columns:
-    plt.hist(data['Age'], bins=30, edgecolor='black')
-    st.pyplot(plt.gcf())
-else:
-    st.write("La colonne 'Age' n'existe pas dans le fichier CSV.")
-
+# Exécuter le script : streamlit run streamlit_app.py
