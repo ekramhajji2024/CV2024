@@ -1,11 +1,3 @@
-import streamlit as st
-
-# URL of the logo
-logo_url = "https://www.fedecardio.org/wp-content/uploads/2021/03/schema-valves_0.jpg"
-
-# Display the logo
-st.image(logo_url, width=100)
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
