@@ -1,4 +1,5 @@
-import pandas as pd
+st.write(f"Prédiction : {'Présence de Maladie' si prediction == 1 else 'Absence de Maladie'}")
+    st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 from scipy.stats import shapiro, kstest, anderson
