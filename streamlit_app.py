@@ -10,10 +10,6 @@ data = pd.read_csv('data/gdp_data.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load 
 
-
-# Save the trained model to a file
-joblib.dump(best_logreg, 'heart_disease_model.pkl')
-
 scaler_path = 'models/scaler.pkl'  # Update this path if your file is in a different directory
 model_path = 'heart_disease_model.pkl'
 
