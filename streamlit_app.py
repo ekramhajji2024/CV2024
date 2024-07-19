@@ -8,23 +8,7 @@ import os
 # Charger les données
 data = pd.read_csv('data/gdp_data.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
-#corr
-try:
-    if os.path.exists(scaler_path):
-        scaler = joblib.load(scaler_path)
-        st.write("Scaler loaded successfully.")
-    else:
-        st.error(f"Scaler file '{scaler_path}' not found.")
-except Exception as e:
-    st.error(f"An error occurred while loading the scaler: {e}")
-try:
-    if os.path.exists(model_path):
-        model = joblib.load(model_path)
-        st.write("Model loaded successfully.")
-    else:
-        st.error(f"Model file '{model_path}' not found.")
-except Exception as e:
-    st.error(f"An error occurred while loading the model: {e}")
+
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
 
@@ -35,8 +19,6 @@ def predict_risk(features):
     prediction = model.predict(features_scaled)
     prediction_prob = model.predict_proba(features_scaled)[:, 1]
     return prediction[0], prediction_prob[0]
-    #
-
 
 # Créer une interface pour l'utilisateur
 st.header("Entrée des caractéristiques")
