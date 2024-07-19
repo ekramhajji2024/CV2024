@@ -5,7 +5,18 @@ from sklearn.preprocessing import StandardScaler
 
 # Charger les données
 data = pd.read_csv('Heart_Disease_Prediction.csv')
+csv_path = 'Heart_Disease_Prediction.csv'
 
+try:
+    if os.path.exists(csv_path):
+        data = pd.read_csv(csv_path)
+        st.write("CSV file loaded successfully.")
+    else:
+        st.error(f"CSV file '{csv_path}' not found. Please check the path and try again.")
+except FileNotFoundError:
+    st.error(f"File '{csv_path}' not found. Please ensure the file exists and the path is correct.")
+except Exception as e:
+    st.error(f"An error occurred while loading the CSV file: {e}")
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
 
