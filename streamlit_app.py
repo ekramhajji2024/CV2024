@@ -30,10 +30,6 @@ def predict_risk(features):
     prediction_prob = model.predict_proba(features_scaled)[:, 1]
     return prediction[0], prediction_prob[0]
 
-
-# Save the trained model to a file
-joblib.dump(best_logreg, 'heart_disease_model.pkl')
-
 # Créer une interface pour l'utilisateur
 st.header("Entrée des caractéristiques")
 
