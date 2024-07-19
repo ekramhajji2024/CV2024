@@ -9,22 +9,7 @@ import os
 data = pd.read_csv('data/gdp_data.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load # Load scaler and model
-try:
-    if os.path.exists(scaler_path):
-        scaler = joblib.load(scaler_path)
-        st.write("Scaler loaded successfully.")
-    else:
-        st.error(f"Scaler file '{scaler_path}' not found.")
-    
-    if os.path.exists(model_path):
-        model = joblib.load(model_path)
-        st.write("Model loaded successfully.")
-    else:
-        st.error(f"Model file '{model_path}' not found.")
-except Exception as e:
-    st.error(f"An error occurred while loading files: {e}")
-
-scaler_path = 'models/scaler.pkl'  # Update this path if your file is in a different directory
+scaler_path = 'models/scaler.pkl' 
 model_path = 'heart_disease_model.pkl'
 
 # Titre de l'application
