@@ -6,7 +6,12 @@ from sklearn.preprocessing import StandardScaler
 # Charger le modèle et le scaler
 model = joblib.load('heart_disease_model.pkl')
 scaler = StandardScaler()
-
+import os
+model_path = 'heart_disease_model.pkl'
+if os.path.exists(model_path):
+    model = joblib.load(model_path)
+else:
+    st.error(f"Model file {model_path} not found. Please check the path and try again.")
 # Charger les données
 data = pd.read_csv('Heart_Disease_Prediction.csv')
 
