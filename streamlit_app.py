@@ -14,6 +14,113 @@ model_path = 'heart_disease_model.pkl'
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
+#kjjj
+from sklearn.ensemble import IsolationForest
+
+# Select only numerical columns for outlier detection
+numerical_data = data.select_dtypes(include=['number'])
+
+iso = IsolationForest(contamination=0.05)
+yhat = iso.fit_predict(numerical_data)
+
+# Create a mask for normal data points
+mask = yhat != -1
+
+# Apply the mask to the original DataFrame to remove outliers
+data_cleaned = data[mask]
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+le = LabelEncoder()
+data['Heart Disease'] = le.fit_transform(data['Heart Disease'])
+
+# Define features and target variable
+X = data.drop(columns=['Heart Disease'])
+y = data['Heart Disease']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale the numerical features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+from sklearn.linear_model import LogisticRegression
+
+logreg = LogisticRegression(max_iter=1000)
+logreg.fit(X_train_scaled, y_train)
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# Make predictions on the test set
+y_pred = logreg.predict(X_test_scaled)
+y_pred_prob = logreg.predict_proba(X_test_scaled)[:, 1]
+
+# Evaluate the model
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+roc_auc = roc_auc_score(y_test, y_pred_prob)
+
+print("Confusion Matrix:\n", conf_matrix)
+print("\nClassification Report:\n", class_report)
+print("\nROC-AUC Score:", roc_auc)
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, accuracy_score
+
+logreg = LogisticRegression(max_iter=1000)
+logreg.fit(X_train_scaled, y_train)
+
+y_train_pred = logreg.predict(X_train_scaled)
+y_test_pred = logreg.predict(X_test_scaled)
+
+y_train_pred_prob = logreg.predict_proba(X_train_scaled)[:, 1]
+y_test_pred_prob = logreg.predict_proba(X_test_scaled)[:, 1]
+
+# Evaluate on training set
+print("Training Set Evaluation")
+print("Confusion Matrix:\n", confusion_matrix(y_train, y_train_pred))
+print("\nClassification Report:\n", classification_report(y_train, y_train_pred))
+print("ROC-AUC Score:", roc_auc_score(y_train, y_train_pred_prob))
+print("Accuracy:", accuracy_score(y_train, y_train_pred))
+
+# Evaluate on test set
+print("\nTest Set Evaluation")
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_test_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_test_pred))
+print("ROC-AUC Score:", roc_auc_score(y_test, y_test_pred_prob))
+print("Accuracy:", accuracy_score(y_test, y_test_pred))
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    'C': [0.01, 0.1, 1, 10, 100],
+    'penalty': ['l1', 'l2'],
+    'solver': ['liblinear', 'saga']
+}
+
+grid_search = GridSearchCV(estimator=logreg, param_grid=param_grid, cv=5, scoring='roc_auc', n_jobs=-1)
+grid_search.fit(X_train_scaled, y_train)
+
+print("Best Parameters:", grid_search.best_params_)
+
+# Train the model with the best parameters
+best_logreg = grid_search.best_estimator_
+best_logreg.fit(X_train_scaled, y_train)
+
+y_train_pred = best_logreg.predict(X_train_scaled)
+y_test_pred = best_logreg.predict(X_test_scaled)
+
+y_train_pred_prob = best_logreg.predict_proba(X_train_scaled)[:, 1]
+y_test_pred_prob = best_logreg.predict_proba(X_test_scaled)[:, 1]
+
+# Evaluate on training set
+print("Training Set Evaluation with Tuned Model")
+print("Confusion Matrix:\n", confusion_matrix(y_train, y_train_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_test_pred))
+print("ROC-AUC Score:", roc_auc_score(y_test, y_test_pred_prob))
+print("Accuracy:", accuracy_score(y_test, y_test_pred))
+import joblib
+
+# Save the trained model to a file
+joblib.dump(best_logreg, 'heart_disease_model.pkl')
 
 
 # Fonction pour les prédictions
