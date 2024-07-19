@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import os
 
 # Charger les données
-data = pd.read_csv('data/gdp_data.csv')
+data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load # Load scaler and model
 scaler_path = 'models/scaler.pkl' 
