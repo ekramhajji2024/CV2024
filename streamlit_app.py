@@ -5,7 +5,9 @@ from scipy.stats import shapiro, kstest, anderson
 import matplotlib.pyplot as plt
 # Charger le dataset
 data = pd.read_csv('data/gdp_data.csv')
-
+# Charger le modèle et le scaler
+model = joblib.load('heart_disease_model.pkl')
+scaler = StandardScaler()
 # Tests statistiques
 stat, p = shapiro(data['age'])
 print('Shapiro-Wilk Test: Statistics=%.3f, p=%.3f' % (stat, p))
