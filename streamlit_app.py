@@ -6,6 +6,19 @@ from sklearn.preprocessing import StandardScaler
 # Charger les données
 data = pd.read_csv('data/gdp_data.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
+#scal
+scaler_path = 'scaler.pkl'
+
+try:
+    if os.path.exists(scaler_path):
+        scaler = joblib.load(scaler_path)
+        st.write("Scaler loaded successfully.")
+    else:
+        st.error(f"Scaler file '{scaler_path}' not found. Please check the path and try again.")
+except FileNotFoundError:
+    st.error(f"File '{scaler_path}' not found. Please ensure the file exists and the path is correct.")
+except Exception as e:
+    st.error(f"An error occurred while loading the scaler: {e}")
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
