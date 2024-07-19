@@ -3,7 +3,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-
+import os
 # Load scaler and model
 scaler_path = 'models/scaler.pkl'
 model_path = 'models/heart_disease_model.pkl'
