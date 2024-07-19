@@ -13,7 +13,19 @@ csv_path = 'Heart_Disease_Prediction.csv'
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
+from sklearn.ensemble import IsolationForest
 
+# Select only numerical columns for outlier detection
+numerical_data = data.select_dtypes(include=['number'])
+
+iso = IsolationForest(contamination=0.05)
+yhat = iso.fit_predict(numerical_data)
+
+# Create a mask for normal data points
+mask = yhat != -1
+
+# Apply the mask to the original DataFrame to remove outliers
+data_cleaned = data[mask]
 le = LabelEncoder()
 data['Heart Disease'] = le.fit_transform(data['Heart Disease'])
 
