@@ -4,6 +4,9 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
 import os
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 # Charger les données
 data = pd.read_csv('data/gdp_data.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
