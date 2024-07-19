@@ -1,41 +1,30 @@
 
 import streamlit as st
-import joblib
 import pandas as pd
+import joblib
 from sklearn.preprocessing import StandardScaler
 import os
-# Load scaler and model
-scaler_path = 'models/scaler.pkl'
-model_path = 'models/heart_disease_model.pkl'
 
-try:
-    if os.path.exists(scaler_path):
-        scaler = joblib.load(scaler_path)
-        st.write("Scaler loaded successfully.")
-    else:
-        st.error(f"Scaler file '{scaler_path}' not found.")
-    
-    if os.path.exists(model_path):
-        model = joblib.load(model_path)
-        st.write("Model loaded successfully.")
-    else:
-        st.error(f"Model file '{model_path}' not found.")
-except Exception as e:
-    st.error(f"An error occurred while loading files: {e}")
+# Charger les données
+data = pd.read_csv('data/gdp_data.csv')
+csv_path = 'Heart_Disease_Prediction.csv'
+#load 
 
-# Function for predictions
+scaler_path = 'models/scaler.pkl'  # Update this path if your file is in a different directory
+model_path = 'heart_disease_model.pkl'
+
+# Titre de l'application
+st.title("Prédiction du Risque Cardiovasculaire")
+
+
+# Fonction pour les prédictions
 def predict_risk(features):
-    try:
-        # Ensure features is a 2D array
-        features_scaled = scaler.transform([features])
-        prediction = model.predict(features_scaled)
-        prediction_prob = model.predict_proba(features_scaled)[:, 1]
-        return prediction[0], prediction_prob[0]
-    except Exception as e:
-        st.error(f"An error occurred during prediction: {e}")
-        return None, None
+    features_scaled = scaler.transform([features])
+    prediction = model.predict(features_scaled)
+    prediction_prob = model.predict_proba(features_scaled)[:, 1]
+    return prediction[0], prediction_prob[0]
 
-# Create an interface for the user
+# Créer une interface pour l'utilisateur
 st.header("Entrée des caractéristiques")
 
 age = st.number_input("Âge", min_value=1, max_value=120, value=30)
@@ -52,12 +41,13 @@ slope = st.number_input("Pente du segment ST (slope)", min_value=0, max_value=2,
 ca = st.number_input("Nombre de vaisseaux principaux colorés par fluoroscopie (ca)", min_value=0, max_value=4, value=0)
 thal = st.number_input("Thalassémie (thal)", min_value=0, max_value=3, value=2)
 
-# Put all the features into a list
+# Mettre toutes les caractéristiques dans une liste
 features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 
-# Predict risk when the user clicks the button
+# Prédire le risque lorsque l'utilisateur clique sur le bouton
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
-    if prediction is not None:
-        st.write(f"Prédiction : {'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
-        st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
+    st.write(f"Prédiction : {'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
+    st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
+
+# Exécuter le script : streamlit run streamlit_app.py
