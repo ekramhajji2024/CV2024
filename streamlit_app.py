@@ -4,13 +4,9 @@ import pandas as pd
 import joblib
 import os
 
-
-# Save the trained model to a file
-joblib.dump(best_logreg, 'heart_disease_model.pkl')
-
 # Load the scaler
-scaler_path = 'scaler.pkl'
-model_path = 'heart_disease_model.pkl'
+
+
 csv_path = 'data/gdp_data.csv'
 
 try:
