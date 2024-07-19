@@ -43,7 +43,7 @@ features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak,
 # Prédire le risque lorsque l'utilisateur clique sur le bouton
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
-    st.write(f"Prédiction : {'Présence de Maladie' si prediction == 1 else 'Absence de Maladie'}")
+    st.write(f"Prédiction : {'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
     st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
 
 # Exécuter le script : streamlit run streamlit_app.py
