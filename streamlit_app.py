@@ -11,6 +11,55 @@ csv_path = 'Heart_Disease_Prediction.csv'
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
 
+le = LabelEncoder()
+data['Heart Disease'] = le.fit_transform(data['Heart Disease'])
+
+# Define features and target variable
+X = data.drop(columns=['Heart Disease'])
+y = data['Heart Disease']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale the numerical features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+from sklearn.linear_model import LogisticRegression
+
+logreg = LogisticRegression(max_iter=1000)
+logreg.fit(X_train_scaled, y_train)
+
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    'C': [0.01, 0.1, 1, 10, 100],
+    'penalty': ['l1', 'l2'],
+    'solver': ['liblinear', 'saga']
+}
+
+grid_search = GridSearchCV(estimator=logreg, param_grid=param_grid, cv=5, scoring='roc_auc', n_jobs=-1)
+grid_search.fit(X_train_scaled, y_train)
+
+print("Best Parameters:", grid_search.best_params_)
+
+# Train the model with the best parameters
+best_logreg = grid_search.best_estimator_
+best_logreg.fit(X_train_scaled, y_train)
+
+y_train_pred = best_logreg.predict(X_train_scaled)
+y_test_pred = best_logreg.predict(X_test_scaled)
+
+y_train_pred_prob = best_logreg.predict_proba(X_train_scaled)[:, 1]
+y_test_pred_prob = best_logreg.predict_proba(X_test_scaled)[:, 1]
+
+# Evaluate on training set
+print("Training Set Evaluation with Tuned Model")
+print("Confusion Matrix:\n", confusion_matrix(y_train, y_train_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_test_pred))
+print("ROC-AUC Score:", roc_auc_score(y_test, y_test_pred_prob))
+print("Accuracy:", accuracy_score(y_test, y_test_pred))
+
 # Fonction pour les prédictions
 def predict_risk(features):
     features_scaled = scaler.transform([features])
