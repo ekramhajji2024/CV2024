@@ -6,17 +6,6 @@ import matplotlib.pyplot as plt
 # Charger le dataset
 data = pd.read_csv('data/gdp_data.csv')
 
-# Visualisation
-plt.hist(data['age'], bins=30, edgecolor='black')
-plt.title('Histogramme de l\'âge')
-plt.xlabel('Âge')
-plt.ylabel('Fréquence')
-plt.show()
-
-stats.probplot(data['age'], dist="norm", plot=plt)
-plt.title('Q-Q Plot')
-plt.show()
-
 # Tests statistiques
 stat, p = shapiro(data['age'])
 print('Shapiro-Wilk Test: Statistics=%.3f, p=%.3f' % (stat, p))
