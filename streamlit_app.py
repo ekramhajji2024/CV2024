@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 from scipy.stats import shapiro, kstest, anderson
-
+import matplotlib.pyplot as plt
 # Charger le dataset
 data = pd.read_csv('path_to_your_file/Heart_Disease_Prediction.csv')
 
