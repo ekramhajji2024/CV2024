@@ -14,7 +14,21 @@ scaler_path = 'scaler.pkl'
 scaler = joblib.load(scaler_path)
 model = joblib.load(model_path)
        
+# corr
+scaler = None
+model = None
 
+try:
+    scaler = joblib.load(scaler_path)
+    st.write("Scaler loaded successfully.")
+except Exception as e:
+    st.error(f"Error loading scaler: {e}")
+
+try:
+    model = joblib.load(model_path)
+    st.write("Model loaded successfully.")
+except Exception as e:
+    st.error(f"Error loading model: {e}")
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
 # Fonction pour les prédictions
