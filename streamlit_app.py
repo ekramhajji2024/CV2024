@@ -11,7 +11,7 @@ csv_path = 'Heart_Disease_Prediction.csv'
 # Chemins vers les fichiers du modèle et du scaler
 model_path = 'heart_disease_model.pkl'
 scaler_path = 'scaler.pkl'
-scaler = joblib.load(scale_path)
+scaler = joblib.load(scaler_path)
 model = joblib.load(model_path)
        
 # corr
