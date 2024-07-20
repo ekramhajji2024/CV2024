@@ -1,7 +1,7 @@
+
 import streamlit as st
 import pandas as pd
 import joblib
-from sklearn.preprocessing import StandardScaler
 import os
 
 # Charger les données
@@ -11,10 +11,8 @@ csv_path = 'Heart_Disease_Prediction.csv'
 # Chemins vers les fichiers du modèle et du scaler
 model_path = 'heart_disease_model.pkl'
 scaler_path = 'scaler.pkl'
-scaler = joblib.load(scaler_path)
-model = joblib.load(model_path)
-       
-# corr
+
+# Charger le scaler et le modèle
 scaler = None
 model = None
 
@@ -29,32 +27,11 @@ try:
     st.write("Model loaded successfully.")
 except Exception as e:
     st.error(f"Error loading model: {e}")
-# Obtenir le répertoire du script
-script_dir = os.path.dirname(__file__)
-# Fonction pour les prédictions
-def predict_risk(features):
-    try:
-        # Vérifiez si le scaler et le modèle sont chargés
-        if 'scaler' in locals() and 'model' in locals():
-            features_scaled = scaler.transform([features])
-            prediction = model.predict(features_scaled)
-            prediction_prob = model.predict_proba(features_scaled)[:, 1]
-            return prediction[0], prediction_prob[0]
-        else:
-            st.error("Scaler ou modèle non chargé.")
-            return None, None
-    except Exception as e:
-        st.error(f"Erreur lors de la prédiction : {e}")
-        return None, None
-
-# Titre de l'application
-st.title("Prédiction du Risque Cardiovasculaire")
-
 
 # Fonction pour les prédictions
 def predict_risk(features):
     try:
-        if 'scaler' in locals() and 'model' in locals():
+        if scaler is not None and model is not None:
             # Vérifiez que le nombre de caractéristiques correspond à celui attendu par le scaler
             if len(features) == scaler.n_features_in_:
                 features_scaled = scaler.transform([features])
@@ -70,6 +47,10 @@ def predict_risk(features):
     except Exception as e:
         st.error(f"Erreur lors de la prédiction : {e}")
         return None, None
+
+# Titre de l'application
+st.title("Prédiction du Risque Cardiovasculaire")
+
 # Créer une interface pour l'utilisateur
 st.header("Entrée des caractéristiques")
 
@@ -93,7 +74,8 @@ features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak,
 # Prédire le risque lorsque l'utilisateur clique sur le bouton
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
-    st.write(f"Prédiction : {'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
-    st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
+    if prediction is not None:
+        st.write(f"Prédiction : {'Présence de Maladie' si prediction == 1 else 'Absence de Maladie'}")
+        st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
 
 # Exécuter le script : streamlit run streamlit_app.py
