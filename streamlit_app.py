@@ -39,11 +39,23 @@ st.title("Prédiction du Risque Cardiovasculaire")
 
 # Fonction pour les prédictions
 def predict_risk(features):
-    features_scaled = scaler.transform([features])
-    prediction = model.predict(features_scaled)
-    prediction_prob = model.predict_proba(features_scaled)[:, 1]
-    return prediction[0], prediction_prob[0]
-
+    try:
+        if 'scaler' in locals() and 'model' in locals():
+            # Vérifiez que le nombre de caractéristiques correspond à celui attendu par le scaler
+            if len(features) == scaler.n_features_in_:
+                features_scaled = scaler.transform([features])
+                prediction = model.predict(features_scaled)
+                prediction_prob = model.predict_proba(features_scaled)[:, 1]
+                return prediction[0], prediction_prob[0]
+            else:
+                st.error(f"Le nombre de caractéristiques ne correspond pas. Attendu: {scaler.n_features_in_}, Reçu: {len(features)}")
+                return None, None
+        else:
+            st.error("Scaler ou modèle non chargé.")
+            return None, None
+    except Exception as e:
+        st.error(f"Erreur lors de la prédiction : {e}")
+        return None, None
 # Créer une interface pour l'utilisateur
 st.header("Entrée des caractéristiques")
 
