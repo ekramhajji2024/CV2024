@@ -10,12 +10,6 @@ csv_path = 'Heart_Disease_Prediction.csv'
 #load 
 filename = '/content/heart_disease_model.pkl'
 
-# Sauvegarder le modèle dans le fichier
-joblib.dump(model, filename)
-
-
-
-
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
 
