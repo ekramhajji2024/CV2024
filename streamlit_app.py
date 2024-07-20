@@ -9,7 +9,7 @@ data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 
 # Chemins vers les fichiers du modèle et du scaler
-model_path = ''
+model_path = 'heart_disease_model.pkl'
 scaler_path = 'models/scaler.pkl'
 
 # Obtenir le répertoire du script
