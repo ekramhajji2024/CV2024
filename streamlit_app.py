@@ -13,9 +13,6 @@ filename = '/content/heart_disease_model.pkl'
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
 
-# Construire le chemin complet
-model_path = os.path.join(script_dir, model_filename)
-
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
 
