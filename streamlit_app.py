@@ -11,20 +11,14 @@ csv_path = 'Heart_Disease_Prediction.csv'
 # Chemins vers les fichiers du modèle et du scaler
 model_path = 'heart_disease_model.pkl'
 scaler_path = 'scaler.pkl'
-try:
-    if os.path.exists(scaler_path):
-        scaler = joblib.load(scaler_path)
-        st.write("Scaler loaded successfully.")
-    else:
-        st.error(f"Scaler file '{scaler_path}' not found. Please check the path and try again.")
 
-    if os.path.exists(model_path):
+        scaler = joblib.load(scaler_path)
+    
+
+
         model = joblib.load(model_path)
-        st.write("Model loaded successfully.")
-    else:
-        st.error(f"Model file '{model_path}' not found. Please check the path and try again.")
-except Exception as e:
-    st.error(f"An error occurred: {e}")
+       
+
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
 # Fonction pour les prédictions
