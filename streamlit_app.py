@@ -7,8 +7,10 @@ import os
 # Charger les données
 data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
-#load 
-filename = '/content/heart_disease_model.pkl'
+
+# Chemins vers les fichiers du modèle et du scaler
+model_path = ''
+scaler_path = 'models/scaler.pkl'
 
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
