@@ -70,6 +70,10 @@ thal = st.number_input("Thalassémie (thal)", min_value=0, max_value=3, value=2)
 # Mettre toutes les caractéristiques dans une liste
 features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 
+# Vérifiez si une caractéristique est manquante
+if len(features) < 14:
+    features.append(0)  # Ajout d'une caractéristique par défaut si nécessaire
+
 # Prédire le risque lorsque l'utilisateur clique sur le bouton
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
