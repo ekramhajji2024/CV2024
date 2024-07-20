@@ -10,7 +10,7 @@ csv_path = 'Heart_Disease_Prediction.csv'
 
 # Chemins vers les fichiers du modèle et du scaler
 model_path = 'heart_disease_model.pkl'
-scaler_path = 'models/scaler.pkl'
+scaler_path = 'scaler.pkl'
 
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
