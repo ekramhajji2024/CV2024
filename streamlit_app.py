@@ -8,9 +8,13 @@ import os
 data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load 
+model_filename = 'models/heart_disease_model.pkl'
 
-scaler_path = 'models/scaler.pkl'  # Update this path if your file is in a different directory
-model_path = 'heart_disease_model.pkl'
+# Obtenir le répertoire du script
+script_dir = os.path.dirname(__file__)
+
+# Construire le chemin complet
+model_path = os.path.join(script_dir, model_filename)
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
