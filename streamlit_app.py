@@ -8,6 +8,8 @@ import os
 data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load 
+model_path = os.getenv('MODEL_PATH', 'models/heart_disease_model.pkl')
+
 model_filename = 'models/heart_disease_model.pkl'
 
 # Obtenir le répertoire du script
