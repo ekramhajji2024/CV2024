@@ -8,7 +8,7 @@ import os
 data = pd.read_csv('Heart_Disease_Prediction.csv')
 csv_path = 'Heart_Disease_Prediction.csv'
 #load 
-filename = 'heart_disease_model.pkl'
+filename = '/content/heart_disease_model.pkl'
 
 # Sauvegarder le modèle dans le fichier
 joblib.dump(model, filename)
