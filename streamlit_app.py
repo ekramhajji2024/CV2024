@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import joblib
@@ -75,7 +74,7 @@ features = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak,
 if st.button("Prédire le Risque"):
     prediction, prediction_prob = predict_risk(features)
     if prediction is not None:
-        st.write(f"Prédiction : {'Présence de Maladie' si prediction == 1 else 'Absence de Maladie'}")
+        st.write(f"Prédiction : {'Présence de Maladie' if prediction == 1 else 'Absence de Maladie'}")
         st.write(f"Probabilité de Maladie : {prediction_prob:.2f}")
 
 # Exécuter le script : streamlit run streamlit_app.py
