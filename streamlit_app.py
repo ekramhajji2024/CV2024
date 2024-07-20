@@ -12,6 +12,41 @@ filename = '/content/heart_disease_model.pkl'
 
 # Obtenir le répertoire du script
 script_dir = os.path.dirname(__file__)
+## Charger le modèle
+try:
+    if os.path.exists(model_path):
+        model = joblib.load(model_path)
+        st.write("Modèle chargé avec succès.")
+    else:
+        st.error(f"Fichier modèle '{model_path}' non trouvé.")
+except Exception as e:
+    st.error(f"Erreur lors du chargement du modèle : {e}")
+
+# Charger le scaler
+try:
+    if os.path.exists(scaler_path):
+        scaler = joblib.load(scaler_path)
+        st.write("Scaler chargé avec succès.")
+    else:
+        st.error(f"Fichier scaler '{scaler_path}' non trouvé.")
+except Exception as e:
+    st.error(f"Erreur lors du chargement du scaler : {e}")
+
+# Fonction pour les prédictions
+def predict_risk(features):
+    try:
+        # Vérifiez si le scaler et le modèle sont chargés
+        if 'scaler' in locals() and 'model' in locals():
+            features_scaled = scaler.transform([features])
+            prediction = model.predict(features_scaled)
+            prediction_prob = model.predict_proba(features_scaled)[:, 1]
+            return prediction[0], prediction_prob[0]
+        else:
+            st.error("Scaler ou modèle non chargé.")
+            return None, None
+    except Exception as e:
+        st.error(f"Erreur lors de la prédiction : {e}")
+        return None, None
 
 # Titre de l'application
 st.title("Prédiction du Risque Cardiovasculaire")
